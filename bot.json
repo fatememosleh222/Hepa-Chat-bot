@@ -1,0 +1,780 @@
+{
+  "version": "1.19",
+  "settings": {
+    "defaultLanguage": "en",
+    "languages": [
+      "English"
+    ],
+    "description": "",
+    "id": "9c12124e-4414-4441-a735-256a29f4bfaa",
+    "inactivityTimeout": 30,
+    "botVariables": [],
+    "userVariables": [],
+    "nodeRepetitionLimit": 3,
+    "configVariables": {},
+    "cognitiveConfigs": {
+      "openAi": {}
+    },
+    "useLlmz": true,
+    "defaultBestModel": "openai__gpt-4.1-2025-04-14",
+    "defaultFastModel": "openai__gpt-4.1-mini-2025-04-14",
+    "useClient": true,
+    "llmzVersion": "01-Oct-2024",
+    "autonomousModel": "best-model",
+    "fallbackModel": "google-ai__models/gemini-2.0-flash",
+    "usePushToGit": false,
+    "useCognitiveV2": false,
+    "disablePublishButton": false
+  },
+  "flows": [
+    {
+      "id": "wf-error",
+      "name": "Error",
+      "startNode": "nd-98dc0bcc87",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-1cb5862648",
+          "source": "nd-98dc0bcc87",
+          "sourcePort": "trs-02c7129430",
+          "target": "nd-58fca56e01"
+        },
+        {
+          "id": "edg-1c28c96d6a",
+          "source": "nd-58fca56e01",
+          "sourcePort": "nd-58fca56e01",
+          "target": "nd-e05f59dd66"
+        }
+      ],
+      "nodes": [
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⛔️ When something goes wrong</span></strong></p><p><br>This workflow is executed when there's an <strong>unexpected error</strong> in one of the other workflows.</p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-8ff3d7d295",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 401,
+          "x": 90,
+          "y": -45
+        },
+        {
+          "instructions": [
+            {
+              "id": "ins-2762f70004",
+              "type": "content",
+              "content": {
+                "type": "text",
+                "text": {
+                  "staticValue": "Sorry, an error occurred. Please try again later",
+                  "dynamicValue": "",
+                  "valueType": "static"
+                },
+                "typing": {
+                  "valueType": "static",
+                  "staticValue": true
+                }
+              },
+              "nodeId": "nd-58fca56e01",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-e05f59dd66"
+          },
+          "type": "standard",
+          "id": "nd-58fca56e01",
+          "name": "Handler",
+          "deletable": true,
+          "x": 450,
+          "y": 120
+        },
+        {
+          "id": "nd-98dc0bcc87",
+          "name": "On_Error",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-02c7129430",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-58fca56e01"
+              },
+              "transitions": [],
+              "nodeId": "nd-98dc0bcc87"
+            }
+          ],
+          "x": 90,
+          "y": 120
+        },
+        {
+          "id": "nd-e05f59dd66",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-945140a646",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-e05f59dd66"
+            }
+          ],
+          "x": 810,
+          "y": 120
+        }
+      ]
+    },
+    {
+      "id": "wf-timeout",
+      "name": "Timeout",
+      "startNode": "nd-9f7f3268ac",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-b0d2adcd13",
+          "source": "nd-e6c012a652",
+          "sourcePort": "nd-e6c012a652",
+          "target": "nd-199fdcf439"
+        },
+        {
+          "id": "edg-6d17a0591b",
+          "source": "nd-9f7f3268ac",
+          "sourcePort": "trs-0c7a9a0003",
+          "target": "nd-e6c012a652"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-199fdcf439"
+          },
+          "type": "standard",
+          "id": "nd-e6c012a652",
+          "name": "Handler",
+          "deletable": true,
+          "x": 435,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⌛️ When conversation times out</span></strong></p><p><br>This workflow is executed when the conversation <strong>times out</strong> before it had time to flow to an <strong>End Node</strong>.</p><p></p><p>The <strong>Timeout Delay</strong> is configurable in the <strong>Chatbot Settings.</strong></p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-441efa6c42",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 173,
+          "width": 401,
+          "x": 105,
+          "y": -90
+        },
+        {
+          "id": "nd-9f7f3268ac",
+          "name": "On_Timeout",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-0c7a9a0003",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-e6c012a652"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 100,
+          "y": 100
+        },
+        {
+          "id": "nd-199fdcf439",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-bf76943d55",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 795,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "id": "wf-conversation-end",
+      "name": "Conversation End",
+      "startNode": "nd-c0d3bd2c92",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-3cb8028ff6",
+          "source": "nd-c0d3bd2c92",
+          "sourcePort": "trs-92c6f93b0c",
+          "target": "nd-2db7499cc6"
+        },
+        {
+          "id": "edg-8a88f687a0",
+          "source": "nd-2db7499cc6",
+          "sourcePort": "nd-2db7499cc6",
+          "target": "nd-d0c2a6be81"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-d0c2a6be81"
+          },
+          "type": "standard",
+          "id": "nd-2db7499cc6",
+          "name": "Handler",
+          "deletable": true,
+          "x": 420,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">👋 Before Conversation Ends</span></strong></p><p><br>This workflow is executed when right before the conversation <strong>Ends Explicitly.</strong></p><p></p><p>An <strong>Explicit Ending</strong> happens when a workflow transitions on an <strong>End Node</strong>.</p>",
+          "type": "comment",
+          "id": "nd-6d5d3f41dd",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 461,
+          "x": 105,
+          "y": -45
+        },
+        {
+          "id": "nd-c0d3bd2c92",
+          "name": "On_Explicit_Ending",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-92c6f93b0c",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-2db7499cc6"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 100,
+          "y": 100
+        },
+        {
+          "id": "nd-d0c2a6be81",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-7004dbb2b6",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 780,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "topicId": "tpc-global",
+      "id": "wf-main",
+      "name": "Main",
+      "startNode": "nd-2bb9db230d",
+      "variables": [],
+      "links": [],
+      "nodes": [
+        {
+          "id": "nd-2bb9db230d",
+          "name": "Start",
+          "type": "start",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-8b0779edc5",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-54aa0c19de"
+              },
+              "transitions": [],
+              "nodeId": "nd-2bb9db230d"
+            }
+          ],
+          "x": -105,
+          "y": -180,
+          "kbPriority": {
+            "enabled": false,
+            "searchScope": "specific",
+            "kbs": []
+          }
+        },
+        {
+          "id": "nd-80ac4ff158",
+          "name": "End",
+          "type": "end",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-0260f5e672",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-80ac4ff158"
+            }
+          ],
+          "x": 420,
+          "y": -60
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 90,
+          "y": -240,
+          "instructions": [
+            {
+              "id": "ins-1465ce0650",
+              "agentId": "KnowledgeAgent",
+              "toolId": "knowledge-query",
+              "toolType": "search",
+              "type": "autonomous",
+              "label": "Search Knowledge Bases",
+              "category": "Knowledge Bases",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": [],
+              "description": "Searches for information in the official knowledge bases.",
+              "kbs": {
+                "valueType": "static",
+                "staticValue": []
+              },
+              "advanced": {
+                "mode": "breadcrumb",
+                "contextDepth": 2,
+                "maxTokens": 20
+              }
+            }
+          ],
+          "id": "nd-54aa0c19de",
+          "name": "AutonomousNode",
+          "writableVariables": [],
+          "allowConversation": true,
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "You are a friendly, articulate, and professional AI Brand Assistant that use simple english for non english speakers . You represent Hepa on its website and interact directly with website visitors who are new to the heatpump concept and unfamiliar with how it works and cost involved. Your primary role is to help visitors understand heat pump benefit, challenges, key statistics, government support, installation process, and customer-centric values, using only information retrieved from the company’s Knowledge Base (RAG). You never use your own general model knowledge. and you need to mention if you don't know the answer rather than wrong or irrelevant answer. \nStart answering first question with introducing yourself and greet a person. \nour customers might speak different languages so you should ask them what language do they prefer at first (english, polish and urdu). Give user option to change language at any time.\n\n**Your behavior follows these rules:**\n\n1. **Respond exclusively with retrieved Knowledge Base information:**\n   - Provide answers only using content retrieved via RAG.\n   - Do not generate responses based on assumptions, general knowledge, or prior training.\n   - Never guess, fill in gaps, or fabricate facts.\n   - If relevant information is not found, respond with:\n     > \"That's a great question — I couldn't find that information in the company's documentation.\"\n- don't respond repetitively at all , just tell I have those information that I provided and nothing more, also mention that in a future I will try to learn more and gather more information but currently I can't provide more \n\n2. **Assist with any question about Welcomity, if the knowledge exists:**\n   - Be prepared to address a broad range of questions, including:\n     - Company overview and brand introduction\n     - Operational strategies and service demonstrations (e.g., customer interaction approaches, communication training, community initiatives)\n     - Use cases and applications in relationship building and customer satisfaction\n     - Team culture and employee engagement\n     - Onboarding processes for new clients or staff\n     - Value propositions and customer benefits\n     - Company’s approach to creating a welcoming environment, communication best practices, and community engagement\n   - If the requested information is **not available in the KB**, explain this kindly and offer to help with something else.\n\n3. **Use formatting for clarity and engagement:**\n   - Use **carousels** for sharing structured information such as operational strategies, team initiatives, or engagement highlights. Each card should have a title, a short description, an optional image, and an action button (e.g., \"Learn more\").\n   - Use **buttons** to guide next steps, such as suggesting follow-up questions or linking to available resources.\n   - If structured formatting is not appropriate, respond with clear, helpful text.\nguidance\n- never repeat answer\n\n\n4. **Maintain a helpful, respectful tone:**\n   - Communicate clearly, professionally, and warmly, reflecting Welcomity’s commitment to fostering a welcoming and friendly environment.\n   - Avoid marketing hype or vague statements.\n   - If uncertain or if information is missing, say:\n     > \"I couldn't find that detail right now, but I can help with something else if you'd like.\"\n\n5. **No escalation to humans:**\n   - Do not refer to a live agent or hand off the conversation.\n   - Help as much as possible using the Knowledge Base.\n\n6. **Knowledge Base coverage may vary:**\nthese are the criteria that our users are looking for \n1. Defining heat pumps and how they work\n2. Key benefits and challenges\n3. Cost Comparison (Annual Heating Costs)\n4. How Heat Pumps Enable Flexibility\n5. Installation Process\n6. Government Support\n7. Suitable Homes\n8. Quick Facts\n9. Common Manufacturers\n10. Resources\n\n7. **Security and privacy:**\n   - Never request passwords, payment info, or private user data.\n   - Never pretend to be a human.\n\n8. Zero-Repetition Rule:\n\nYou must never repeat the same explanation, facts, or phrasing you have already given in the conversation.\n\nIf a user asks for the same information again, or tries to rephrase the question to get more detail, respond with:\n\n“I’ve already shared all the information available in the Knowledge Base about this topic. I don’t have any additional details right now, but I will learn more in the future. How else can I help you?”\n\nWhen information is limited, state clearly that you cannot add anything beyond what is retrieved.\n\nDo not reword or restate previous answers in different wording just to appear helpful\n\n10. Speak Simply, Kindly, and Without Repeating Yourself:\n\nUse very simple, clear English, so anyone can understand—especially visitors who are not strong English speakers.\n\nKeep your tone friendly, caring, and patient, like someone who truly wants to help.\n\nIf the Knowledge Base uses complicated terms, explain them in an easy and gentle way.\n\nAvoid repeating the same answers. If someone asks again or wants more detail but nothing new is in the Knowledge Base, respond kindly with something like:\n\n“I’ve already shared everything I found in the Knowledge Base about this topic. I don’t have more information right now, but I hope to learn more in the future. Is there something else you’d like to know?”\n\nEven when you cannot provide more information, stay warm, polite, and supportive.\n\n11. Keep Answers Short and Easy to Read:\n\nKeep every answer brief — around three simple sentences.\n\nOnly share what is necessary from the Knowledge Base and avoid long explanations.\n\nIf a topic is complex, summarise it gently in short, clear language and offer to explain more only if the user wants.\n\n\n\n12.Includes clear \"I can't help with that\" responses for out-of-scope questions\n\n13. End with a gentle feedback question:\n\nFinish every reply with a warm, simple line such as:\n\n“I hope this helped. Was it useful? If you want to know more or share any feedback, I’m here for you.”\n\nKeep it soft, friendly, and written in plain text.\nAt the end of every answer, you must include one friendly feedback sentence written in normal text (not code, not a component, not a UI element). It should always appear as plain words, just like part of the conversation. The feedback sentence must sound warm and human, for example:\n‘I hope this helped. Was it useful? If you want to know more or share any feedback, I’m here for you.’\nDo not present it as a button, code block, command, format, markup, or component. Just write it as simple text at the very end of your reply.\n**Company and Industry Context:**\n\n- **Who Welcomity Serves:** Individuals and organizations seeking to improve customer interaction, foster a sense of community, and prioritize effective communication for enhanced customer satisfaction.\n- **Brand Voice and Style:** Welcoming, supportive, and expert—always seeking to build trust and rapport through clear, friendly communication.\n- **Industry Positioning:** Welcomity differentiates itself by prioritizing interpersonal communication and relationship building as core operational strategies, leveraging staff training, team meetings, and community engagement.\n- **Key Value Propositions:**\n  - Creating a welcoming and friendly customer environment\n  - Training staff to engage positively and actively listen to clients\n  - Implementing feedback mechanisms for continuous improvement\n  - Hosting community-building events and collaborations\n  - Operational emphasis on customer satisfaction and supportive experiences\n- Avoid repetition \n- **Engagement Strategies:** Personalized greetings, prompt responses, active listening, and facilitating meaningful connections between staff and customers.\n- **Content Resources:** Information may include operational frameworks, best practices in customer communication, community initiative outlines, and strategies for team engagement. Use carousels or buttons to present these when the KB content supports it.\n\n**Comprehensive Engagement Scenarios You May Encounter:**\n\n- Introducing Welcomity and explaining its unique approach to customer interaction\n- Demonstrating Welcomity’s operational methods (e.g., staff training, community events, feedback mechanisms)\n- Outlining use cases for organizations seeking to improve customer satisfaction\n- Sharing insights into Welcomity’s team culture and commitment to communication excellence\n- Describing onboarding or engagement processes for clients or partners\n- Discussing Welcomity’s value propositions and how it stands out in facilitating customer relationships\n- Guiding visitors to available resources or next steps, such as learning more about Welcomity’s approach or connecting with educational materials (if available in the KB)\n- Providing context on community engagement and relationship-building strategies\n\n**Visitor Engagement and Conversation Flow Guidance:**\n\n- Listen for visitor intent—whether they seek to learn about Welcomity’s philosophy, operational practices, or community involvement.\n- Guide conversations naturally, starting from high-level overviews and offering to dive deeper based on KB content.\n- Use value-driven engagement by highlighting Welcomity’s focus on communication, customer satisfaction, and community.\n- When content is available, suggest next steps or related topics via buttons (e.g., “Learn about our team meetings,” “See how we foster community engagement”).\n- If a visitor’s question cannot be answered, invite them to explore other aspects of Welcomity.\n\nYou represent Welcomity on its website. You engage every visitor as a thoughtful team member—teaching them about Welcomity’s approach, operational strategies, and customer-centric values using only verified, retrieved information, always presented clearly and professionally"
+          },
+          "readableVariables": []
+        },
+        {
+          "type": "video",
+          "deletable": true,
+          "instructions": [],
+          "x": 90,
+          "y": -555,
+          "youtubeUrl": "https://www.youtube.com/watch?v=Hyq_Bwn2W5M",
+          "id": "nd-0a8441430e",
+          "name": "Video1",
+          "data": {
+            "type": "video",
+            "deletable": true,
+            "instructions": [],
+            "x": 90,
+            "y": -615,
+            "youtubeUrl": "https://www.youtube.com/watch?v=Hyq_Bwn2W5M",
+            "id": "nd-0a8441430e",
+            "name": "Video1",
+            "height": 270,
+            "width": 410
+          }
+        }
+      ],
+      "parentFolder": "root"
+    }
+  ],
+  "intents": [
+    {
+      "id": "int-cancel",
+      "name": "cancel",
+      "utterances_with_slots": [
+        "cancel",
+        "abort",
+        "abandon",
+        "i want to cancel",
+        "forget about this",
+        "leave",
+        "stop",
+        "quit",
+        "you know what, nevermind",
+        "forget it"
+      ]
+    },
+    {
+      "id": "int-no",
+      "name": "no",
+      "utterances_with_slots": [
+        "no",
+        "i don't want to",
+        "absolutely not",
+        "nah",
+        "nope",
+        "not really",
+        "not sure",
+        "no thanks"
+      ]
+    },
+    {
+      "id": "int-yes",
+      "name": "yes",
+      "utterances_with_slots": [
+        "yes",
+        "yeah",
+        "absolutely",
+        "i'd like to",
+        "sure ",
+        "hmm probably",
+        "yup",
+        "ok"
+      ]
+    }
+  ],
+  "list_entities": [],
+  "pattern_entities": [],
+  "actions": [],
+  "hooks": [
+    {
+      "id": "hk-99mudt",
+      "name": "track_iterations",
+      "hookType": "after_llmz_execution",
+      "content": "await actions[\"agi/improvement\"].trackIterations({\n  iterations: execution.iterations.map((iteration) => ({\n    uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n    conversationId: event.conversationId!,\n    executionId: execution.context.id,\n    iterationId: iteration.id,\n    eventId: event.messageId ?? event.id,\n    userId: event.userId!,\n    iteration: {\n      code: iteration.code ?? \"\",\n      ended_ts: iteration.ended_ts,\n      started_ts: iteration.started_ts,\n      messages: iteration.messages,\n      model: iteration.llm.model,\n      mutations: iteration.mutations,\n      status: iteration.status,\n    },\n  })),\n});\n",
+      "title": "Track LLMz Iterations",
+      "description": "This hook tracks iterations after LLMz execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  await actions[\"agi/improvement\"].trackIterations({\n    iterations: execution.iterations.map((iteration) => ({\n      uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n      conversationId: event.conversationId,\n      executionId: execution.context.id,\n      iterationId: iteration.id,\n      eventId: event.messageId ?? event.id,\n      userId: event.userId,\n      iteration: {\n        code: iteration.code ?? \"\",\n        ended_ts: iteration.ended_ts,\n        started_ts: iteration.started_ts,\n        messages: iteration.messages,\n        model: iteration.llm.model,\n        mutations: iteration.mutations,\n        status: iteration.status\n      }\n    }))\n  });\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    },
+    {
+      "id": "hk-1q8lg5q",
+      "name": "inject_learnings",
+      "hookType": "before_llmz_execution",
+      "content": "const { items } = await actions[\"agi/improvement\"].findFeedback({\n  uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n  search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\"),\n});\n\nif (items.length) {\n  context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items\n      .map(\n        (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n      )\n      .join(\"\\n\")}\n    `;\n}\n",
+      "title": "Provide Learnings to LLMz",
+      "description": "This hook injects learnings into LLMz before execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const { items } = await actions[\"agi/improvement\"].findFeedback({\n    uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n    search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\")\n  });\n  if (items.length) {\n    context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items.map(\n      (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n    ).join(\"\\n\")}\n    `;\n  }\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    }
+  ],
+  "qnas": [],
+  "folders": [],
+  "agents": {
+    "SummaryAgent": {
+      "enabled": false,
+      "config": {
+        "summaryMaxTokens": 100,
+        "transcriptMaxLines": 10,
+        "model": "fast-model"
+      }
+    },
+    "TranslatorAgent": {
+      "config": {
+        "detectLanguage": true
+      }
+    },
+    "KnowledgeAgent": {
+      "enabled": false,
+      "config": {
+        "answerManually": true,
+        "context": "Summary of the conversation:\n\"\"\"\n{{conversation.SummaryAgent.summary}}\n\"\"\"\n\nTranscript:\n\"\"\"\n{{conversation.SummaryAgent.transcript}}\n\"\"\"",
+        "bestModel": "gpt-4-turbo",
+        "fastestModel": "fast-model",
+        "questionModel": "fast-model",
+        "strategy": "hybrid",
+        "chunks": 50
+      }
+    },
+    "PersonalityAgent": {
+      "config": {
+        "personality": ""
+      }
+    },
+    "VisionAgent": {
+      "enabled": true,
+      "config": {
+        "extractionEnabled": true
+      }
+    }
+  },
+  "tables": {
+    "table_01KA3PWEPM3EYR30W7CSK92WSX": {
+      "id": "table_01KA3PWEPM3EYR30W7CSK92WSX",
+      "name": "RouterAgentTable",
+      "factor": 1,
+      "frozen": false,
+      "tags": {
+        "role": "agents/router/intents",
+        "agent": "RouterAgent",
+        "system": "true"
+      },
+      "createdAt": "2025-11-15T12:12:19.539Z",
+      "updatedAt": "2025-11-15T12:12:19.539Z",
+      "createdBy": "user:cc9096f2-ed17-4b87-8d68-b730a88f1aa8",
+      "updatedBy": null,
+      "isComputeEnabled": false,
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "phrase",
+          "intentId",
+          "phraseId"
+        ],
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            }
+          },
+          "intentId": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            }
+          },
+          "phraseId": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    },
+    "table_01KA3PWERJCJ28GGCZS5YGP7ZP": {
+      "id": "table_01KA3PWERJCJ28GGCZS5YGP7ZP",
+      "name": "Int_Improvement_Feedback_Table",
+      "factor": 30,
+      "frozen": true,
+      "tags": {
+        "origin": "integration",
+        "purpose": "improvement",
+        "version": "Nov-2024",
+        "integration": "Int_Improvement",
+        "x-studio-icon": "lucide://atom",
+        "x-studio-color": "green",
+        "x-studio-title": "Feedback",
+        "x-studio-readonly": "true",
+        "x-studio-description": "Table to store acquired feedback on iterations for active learning"
+      },
+      "createdAt": "2025-11-15T12:12:19.601Z",
+      "updatedAt": "2025-11-15T12:12:19.601Z",
+      "createdBy": "user:cc9096f2-ed17-4b87-8d68-b730a88f1aa8",
+      "updatedBy": null,
+      "isComputeEnabled": true,
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "uri",
+          "after",
+          "before",
+          "feedback",
+          "iterationId"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            },
+            "maxLength": 250,
+            "minLength": 1
+          },
+          "after": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "before": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "feedback": {
+            "type": "string",
+            "x-zui": {
+              "index": 3,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "learning": {
+            "type": "string",
+            "x-zui": {
+              "index": 4,
+              "computed": {
+                "model": "fast-model",
+                "action": "ai",
+                "prompt": "What would you tell your future self to improve next time?\nCode Before:\n\n```\n{{before}}\n```\n\nFeedback: \"{{feedback}}\"\n\nCode After:\n\n```\n{{after}}\n```\n\nFor the learning, it must be standalone, concise but also accurately depict the situation and feedback you were given.\n\nTry to follow one of the below structures:\n\n<example>\nIn [situation X], I learned that I should [use tool `X` rather than `Y` because ...]\n\n\\`\\`\\`\n// snippet using the right tool\n\\`\\`\\`\n</example>\n\n<example>\nWhen trying to [...], I should use [tool X, tool Y or tool Z] like this:\n\n\\`\\`\\`\n// snippet to explain a drastic code change between before and after, or a non-obvious code snippet\n\\`\\`\\`\n</example>\n\n<example>\nWhenever [Y] happens, I should avoid [...] and instead [...].\n\n\\`\\`\\`\n// snippet to implement the behavior change\n\\`\\`\\`\n</example>\n\nKeep it concise. Do not refer to \"this situation\" or to the feedback. Both have been provided by an expert reviewing the conversation, NOT the actual user. So you must embed the content from the above inside your learning so it is standalone.\nMake sure to include a code snippet that teaches the right behavior, but remaining generic enough to adapt to different conversations in the future.\n",
+                "dependencies": [
+                  "before",
+                  "feedback",
+                  "after"
+                ]
+              },
+              "searchable": true
+            },
+            "default": null,
+            "nullable": true,
+            "minLength": 1
+          },
+          "iterationId": {
+            "type": "string",
+            "x-zui": {
+              "index": 5,
+              "searchable": true
+            },
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    }
+  },
+  "schemas": [],
+  "versions": [
+    {
+      "name": "15 Nov 25 03:11",
+      "id": "version_01KA414GZWJPCEAF8ECSDJ0D0S"
+    },
+    {
+      "name": "15 Nov 25 03:07",
+      "id": "version_01KA40XJ30VXPK1N4QCWKGSE4M"
+    }
+  ],
+  "revision": 85,
+  "revisionMetadata": {
+    "lastRevisionCheckAt": "2025-11-15T15:29:51.978Z",
+    "lastRevisionId": 84,
+    "multiplayerStatus": "connected",
+    "multiplayerTraces": [
+      "2025-11-15T15:29:49.894Z: Connection State: connected -> closing (Connection closing)",
+      "2025-11-15T15:29:49.895Z: Connection State: closing -> closed (Connection closed)",
+      "2025-11-15T15:29:49.896Z: Disconnecting multiplayer session...",
+      "2025-11-15T15:29:49.897Z: Multiplayer session disconnected!",
+      "2025-11-15T15:29:49.928Z: Initializing Client... - {\"initializing\":false,\"initialized\":false}",
+      "2025-11-15T15:29:50.015Z: Connection State: initialized -> connecting (ok)",
+      "2025-11-15T15:29:50.144Z (Ct3fGpaXFM): Connection State: connecting -> connected (ok)",
+      "2025-11-15T15:29:50.172Z (Ct3fGpaXFM): Multiplayer session initialized!",
+      "2025-11-15T15:29:50.210Z (Ct3fGpaXFM): Player entered channel - {\"sessionId\":\"sess_01KA418HD9B78HFFRNC5BMDNRS\",\"connectionId\":\"Ct3fGpaXFM\",\"joinedAt\":\"2025-11-15T15:29:50.174Z\",\"email\":\"fateme.mosleh@gmail.com\",\"displayName\":\"Fatemeh Mosleh\",\"color\":\"var(--grass-8)\",\"workspaceUserId\":\"cc9096f2-ed17-4b87-8d68-b730a88f1aa8\",\"lastActiveAt\":\"Sat, 15 Nov 2025 15:29:50 GMT\",\"connectedAt\":\"Sat, 15 Nov 2025 15:29:50 GMT\",\"sections\":[]}",
+      "2025-11-15T15:29:50.211Z (Ct3fGpaXFM): fateme.mosleh@gmail.com was elected as master - \"sess_01KA418HD9B78HFFRNC5BMDNRS\""
+    ],
+    "players": [
+      "fateme.mosleh@gmail.com / sess_01KA418HD9B78HFFRNC5BMDNRS / Sat, 15 Nov 2025 15:29:50 GMT /  Sat, 15 Nov 2025 15:29:50 GMT"
+    ],
+    "savedAt": "2025-11-15T15:29:51.978Z",
+    "savedBy": "fateme.mosleh@gmail.com",
+    "sessionId": "sess_01KA418HD9B78HFFRNC5BMDNRS"
+  },
+  "identity": {
+    "name": "Hepa",
+    "manual_instructions": "",
+    "icon": {
+      "type": "emoji",
+      "emoji": "🤖 ",
+      "background_color": "oklch(var(--color-orange-200))"
+    },
+    "ai_summary": {
+      "value": "Chatbot named sparkling-eland provides concise information.",
+      "input_hash": "7j8s9",
+      "generated_at": "2025-02-26T18:41:46.789Z",
+      "version": "1.0.0"
+    }
+  }
+}
